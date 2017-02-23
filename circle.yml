@@ -1,0 +1,31 @@
+# circle.yml
+general:
+  branches:
+    only:
+      - master
+      - test
+
+machine:
+  environment:
+    CFSSL_VERSION: R1.2
+    TERRAFORM_VERSION: 0.7.3
+
+dependencies:
+  pre:
+    - wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+    - unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d ~/bin
+    - curl -s -L -o ~/bin/cfssl https://pkg.cfssl.org/${CFSSL_VERSION}/cfssl_linux-amd64
+    - curl -s -L -o ~/bin/cfssljson https://pkg.cfssl.org/${CFSSL_VERSION}/cfssljson_linux-amd64
+    - chmod +x ~/bin/{cfssl,cfssljson}
+
+test:
+  pre:
+    - make ssl
+  # override:
+  #  - make plan
+  # post:
+  #   - make clean
+
+notify:
+  webhooks:
+    - url: https://webhooks.gitter.im/e/87c066fe542f9b00f79e

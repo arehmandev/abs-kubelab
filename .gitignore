@@ -1,0 +1,15 @@
+.addons
+.cfssl
+.key-pair
+.keypair
+.srl
+.ssl
+.terraform
+
+terraform.tfplan
+terraform.tfstate*
+terraform.tfvars
+
+tmp/
+templates
+*.bak
